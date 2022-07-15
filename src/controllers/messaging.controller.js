@@ -16,7 +16,18 @@ class MessagingController {
 
   async setupConnection(req, res) {}
 
-  async sendAndRecieveMessage(req, res) {}
+  async sendAndRecieveMessage(req, res) {
+    try {
+      const result = await MessagingService.sendAndRecieveMessage(req.body);
+      const dataInfo = {
+        result: result,
+      };
+      return successResMsg(res, 200, dataInfo);
+    } catch (error) {
+      console.log(error);
+      return errorResMsg(res, 500, error);
+    }
+  }
 
   async listAllMessagesForBothParties(req, res) {
     const result = await MessagingService.listAllMessagesForBothParties();
