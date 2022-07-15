@@ -24,7 +24,7 @@ let sequelize;
 // }
 
 if (process.env.NODE_ENV === "production") {
-  sequelize = new Sequelize(process.env.DATABASE_URL);
+  sequelize = new Sequelize(process.env.HEROKU_POSTGRESQL_BRONZE_URL);
 } else {
   sequelize = new Sequelize(
     process.env.DATABASE || "oneroute-messaging_db",

@@ -1,11 +1,27 @@
-version: '3.8'
-
+version: "3.8"
 services:
-  app:
-    container_name: messaging_api
-    image: oneroute-messaging:0.0.3
+  db:
+    container_name: database_application
+    image: "postgres:12"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=alao1996
+      - POSTGRES_DB=oneroute-messaging_db
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      # Uncomment if you want to load schema before migrations or any declarations
+      # - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    tty: true
+    ports:
+      - "5432:5432"
+  web:
+    container_name: web_sample_application
+    image: oneroute-messaging:0.0.4
     build:
       context: .
+    env_file: ./.env
+    depends_on:
+      - db
     ports:
       - "1112:1112"
     environment:
@@ -14,20 +30,26 @@ services:
       - DATABASE=oneroute-messaging_db
       - DB_USERNAME=postgres
       - PASSWORD=alao1996
-      - HOST=database
+      - HOST=database_application
+    command: npm run start
+  migration:
+    build:
+      context: .
+    command:
+      [
+        "./wait-for-it/wait-for-it.sh",
+        "db:5432",
+        "--",
+        "npm",
+        "run",
+        "migrate"
+      ]
+    links:
+      - db
     depends_on:
-      - database
-  database:
-    container_name: messaging_db
-    image: "postgres:12"
-    ports:
-        - "5432:5432"
+      - db
+    env_file: ./.env
     environment:
-        - POSTGRES_USER=postgres
-        - POSTGRES_PASSWORD=alao1996
-        - POSTGRES_DB=oneroute-messaging_db
-    volumes:
-        - nps_data:/var/lib/postgresql/data
-
+      - DB_HOST=database_application
 volumes:
-  nps_data: {}
+  pg_data: null
