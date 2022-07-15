@@ -1,6 +1,6 @@
 // const db = require("./models/index"); // import all models
 require("dotenv").config();
-const { sequelize } = require("./models/index");
+// const { sequelize } = require("./models/index");
 
 // UNCAUGHT EXCEPTIONS
 // Application needs to be crashed then a tool will be needed to restart the APP
@@ -39,20 +39,20 @@ const port = normalizePort(process.env.PORT || "8888");
 
 // create a http server and  Database Connection
 
-// const server = app.listen(port, async () => {
-//   const address = server.address();
-//   const bind = typeof address === "string" ? `pipe ${address}` : `port ${port}`;
-//   console.log(`Listening on ${bind}`);
-// });
-
-sequelize.authenticate().then(() => {
-  app.listen(port, async () => {
-    // const address = server.address();
-    const bind =
-      typeof address === "string" ? `pipe ${address}` : `port ${port}`;
-    console.log(`Listening on ${bind}`);
-  });
+const server = app.listen(port, async () => {
+  const address = server.address();
+  const bind = typeof address === "string" ? `pipe ${address}` : `port ${port}`;
+  console.log(`Listening on ${bind}`);
 });
+
+// sequelize.authenticate().then(() => {
+//   app.listen(port, async () => {
+//     // const address = server.address();
+//     const bind =
+//       typeof address === "string" ? `pipe ${address}` : `port ${port}`;
+//     console.log(`Listening on ${bind}`);
+//   });
+// });
 
 // Catching Exceptions
 
@@ -61,9 +61,9 @@ process.on("unhandledRejection", (err) => {
   console.log("UNHANDLED REJECTION!...");
   console.log(err.name, err.message);
   console.log({ err });
-  // server.close(() => {
-  //   process.exit();
-  // });
+  server.close(() => {
+    process.exit();
+  });
 });
 
 process.on("SIGINT", async () => {

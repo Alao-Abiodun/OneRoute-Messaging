@@ -7,7 +7,7 @@ const dotenv = require("dotenv");
 // const rateLimit = require("express-rate-limit");
 // const key = require("./utils/libs/gen-key");
 
-// const globalErrorHandler = require("./controllers/errorController");
+const globalErrorHandler = require("./controllers/error.controller");
 
 dotenv.config();
 
@@ -68,6 +68,6 @@ app.all("*", (req, res) => {
 });
 
 // Global Error Handler
-// app.use(globalErrorHandler);
+app.use(globalErrorHandler);
 
 module.exports = app;
