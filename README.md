@@ -33,3 +33,5 @@ A project that will be used for sending and receiving Whatsapp messages.
 <!-- Add the link to the postman documentation -->
 
 [OneRoute-Messaging-Documentation](https://documenter.getpostman.com/view/5643221/UzQuPQrD)
+
+[OneRoute-Messaging-API](https://oneroute-messaging-api.herokuapp.com/)
