@@ -22,8 +22,12 @@ services:
     env_file: ./.env
     depends_on:
       - db
+    volumes:
+      - .:/app/
+      - /app/node_modules
     ports:
       - "1112:1112"
+      - "127.0.0.1:9223:9223"
     environment:
       - PORT=1112
       - NODE_ENV=development
@@ -50,6 +54,6 @@ services:
       - db
     env_file: ./.env
     environment:
-      - DB_HOST=database_application
+      - HOST=database_application
 volumes:
   pg_data: null
